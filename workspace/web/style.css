@@ -1,0 +1,204 @@
+@font-face {
+    font-family: 'UbuntuLight';
+    src: url(fonts/Ubuntu-Light.ttf);
+}
+
+:root {
+    --dark: #0b032d;
+    --primary: #182b69;
+    --secondary: #67afdb;
+    --tertiary: #4269ad;
+    --light: #dcf7f7;
+}
+
+body {
+    font-family: 'UbuntuLight';
+    background-color: var(--light);
+    color: var(--primary);
+    overflow: hidden;
+}
+
+h1, h4 {
+    margin: 5px 0 0;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+input, select, option, textarea {
+    border-radius: 20px;
+    font-size: 2.5vh;
+    padding: 5px;
+    border: solid 2px var(--tertiary);
+    font-family: 'UbuntuLight'; 
+    font-weight: bold;
+    flex-grow: 1;
+    resize: none;
+}
+
+button {
+    border-radius: 20px;
+    font-size: 2.25vh;
+    padding: 7px;
+    border: solid 2px var(--tertiary);
+    font-family: 'UbuntuLight';
+    background: white;
+}
+
+label {
+    padding: 5px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
+}
+
+.flex {
+    display: flex;
+}
+
+.flexwrap {
+    flex-wrap: wrap;
+}
+
+.flexeven {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.flexcenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flexbetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flexcolumn {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    border-bottom: solid 2px var(--primary);
+}
+
+.separator {
+    width: 97.5%;
+    border-top: solid 2px var(--primary);
+    border-bottom: solid 2px var(--primary);
+    margin: 20px auto;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 2vh;
+}
+
+.mainBody {
+    display: flex;
+}
+
+.submit {
+    display: flex;
+    margin: 10px auto;
+}
+
+#settings {
+    flex-basis: 40%;
+    padding: 10px;
+    max-height: 80vh;
+}
+
+#quizWindow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 60%;
+    max-width: 60%;
+    padding: 10px;
+    border: solid 2px var(--dark);
+    border-radius: 10px;
+    margin: 10px;
+    height: 80vh;
+    max-height: 80vh;
+    background: white;
+}
+
+/* SLIDE TEMPLATE CSS */
+@font-face 
+{
+	font-family: 'Open Sans';
+	src: url('fonts/OpenSans-Regular.ttf') format('truetype');
+}
+
+.slide {
+    font-family: 'Open Sans';
+    width: 100%;
+    height: 87.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, #FFF 80%, #d0d3d5);
+    margin: 0 auto;
+    border: solid 4px #206497;
+    border-radius: 20px;
+}
+
+img {
+    margin-top: 5vh;
+    height: fit-content;
+    max-height: 55%;
+    max-width: 90%;
+    border: solid 2px #206497;
+    border-radius: 10px;
+}
+
+.slide p {
+    font-size: 2.5vh;
+    font-family: 'Open Sans';
+    text-align: center;
+}
+
+.slide input {
+    border: solid 2px #206497;
+    border-radius: 20px;
+    font-size: 2vh;
+    padding: 5px;
+    font-family: 'Open Sans';
+}
+
+input[type='submit'] {
+    border: solid 2px #414C5D;
+    margin: 3vh;
+    width: 20%;
+    font-size: 2.5vh;
+    background-color: #206497;
+    color: white;
+    max-height: 6vh;
+}
+
+input[type='submit']:active {
+    background-color: #414C5D;
+}

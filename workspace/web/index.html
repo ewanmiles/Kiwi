@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Kiwi Quiz Builder</title>
+        
+        <script type="text/javascript" src="/eel.js"></script>
+        <script type="text/javascript" src="script.js" defer="defer"></script>
+
+        <link href="style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        <div class="header flexbetween">
+            <h1>Kiwi</h1>
+            <h4>v1.0</h4>
+        </div>
+
+        <div class="mainBody">
+            <div id="quizWindow">
+            </div>
+
+            <div id="settings">
+                <div id="generalSettings" class="flexcolumn">
+                    <h2>General Settings</h2>
+                    <div class="flexcenter">
+                        <label for="quizName">Quiz Name</label>
+                        <input type="text" id="quizName" name="quizName">
+                    </div>
+
+                    <div class="flexeven">
+                        <label for="questionTotal">Number of Questions</label>
+                        <input type="number" id="questionTotal" min="1" max="20" name="questionTotal" oninput="checkQN(this.value)">
+                        <label for="passMark">Pass Mark</label>
+                        <input type="number" id="passMark" min="0" max="100" name="passMark" oninput="checkPM(this.value)">
+                        <p style="margin: 0; padding: 0 5px;">%</p>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div class="questionHead">
+                    <h2>Current Question</h2>
+                    <div class="flexeven">
+                        <label for="questionNumber">Question No.</label>
+                        <select name="questionNumber" id="questionNumber" onchange="selectQuestionNumber(this.value)"></select>
+                        <label for="questionType">Question Type</label>
+                        <select name="questionType" id="questionType" onchange="selectQuestionType(this.value)">
+                            <option hidden disabled selected value></option>
+                            <option value="MCQ">MCQ</option>
+                            <option value="TrueFalse">True/False</option>
+                            <option value="Input">Input</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="separator"></div>
+
+                <div id="questionContent">
+                    <h3 style="text-align: center; vertical-align: center;">Pick a question type!</h3>
+                </div>
+       
+                <button class="submit" type="button" onclick="saveQuestion()">Save Question</button>
+            </div>
+        </div>
+
+        <div class="flexcenter">
+            <button class="submit" type="button" onclick="buildQuiz()">Build</button>
+        </div>
+    </body>
+</html>

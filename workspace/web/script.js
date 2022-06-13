@@ -1,4 +1,27 @@
 /**
+ * Switches the UI editor to edit either CSS/questions (whichever is not currently shown)
+ * @param {HTMLElement} button Button that triggers editor change. Inner text will match the name attr of the element to show
+ */
+function changeEditor(button) {
+    let current = document.getElementById('activeEditor'); //Remove ID from current editor, get name of el to change button text
+    let newText = current.getAttribute('name');
+    current.id = '';
+
+    document.querySelector(`div[name="${button.innerText}"]`).id = 'activeEditor'; //Give id to new editor, update button text
+    button.innerText = newText;
+}
+
+/**
+ * Trigger function to unpack the editable CSS in the py backend and add it to the editor UI
+ */
+function loadInCSS() {
+    eel.getSlideCSS()(styles => {
+        console.log(styles);
+        document.getElementById('styleInput').value = styles;
+    });
+}
+
+/**
  * Basic validator for question number input, will raise appropriate error for incorrect input
  * @param {str} val Value of question number input to validate
  */
@@ -187,7 +210,7 @@ function buildQuiz() {
 /**
  * Creates a child element for given el, with errorMessage class, and given msg as inner text
  * @param {str} el Element ID to add error message to as child
- * @param {StreamPipeOptions} msg Message for error element
+ * @param {str} msg Message for error element
  */
 const raiseError = (el, msg) => {
     clearErrors(el); //Just clear any previous errors first
@@ -236,4 +259,38 @@ const loadInTemplate = (questionNumber) => {
     eel.getTemplateHTML(`${questionNumber}`)(html => { //Unpack html in the py file, load via callback
         document.getElementById('quizWindow').innerHTML = html;
     });
+}
+
+function renderCSS() {
+    const styles = document.getElementById('styleInput').value;
+    const head = document.querySelector('head');
+    
+    //Remove any previous style tags in head
+    Array.from(document.getElementsByTagName('style')).forEach(el => {
+        el.parentNode.removeChild(el);
+    })
+
+    head.innerHTML += `<style>\n${styles}\n</style>`; //Add style tag to head
+
+    let currentStyle = Array.from(document.getElementsByTagName('style'))[0]; //Get style tag just added
+    Array.from(currentStyle.sheet.cssRules).forEach(rule => {
+        if (!rule.selectorText.includes('.slide')) {
+            rule.selectorText = '.slide ' + rule.selectorText; //For each selector that doesn't include '.slide' class, add it.
+            //This stops the style tag from styling the actual UI framework
+        }
+    });
+}
+
+function clearCSS() {
+    loadInCSS() //Clear the textarea back to original stylesheet
+
+    setTimeout(()=> {
+        renderCSS() //Wait for CSS to load in, re-render
+    }, 100)
+}
+
+function saveCSS() {
+    const styles = document.getElementById('styleInput').value;
+
+    eel.saveNewStylesheet(styles); //All done in the python
 }

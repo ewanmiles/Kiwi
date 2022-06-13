@@ -21,8 +21,14 @@ eel.init("web") #Initialise front end files from web dir
 DESKTOP_PATH = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 
 #Clear images folder by deleting full tree followed by mkdir
-shutil.rmtree('web/images')
+if os.path.exists('web/images'):
+    shutil.rmtree('web/images')
+
 os.mkdir('web/images')
+
+#Clear stylesheet from previous build if somehow exists
+if os.path.exists('./style.css'):
+    os.remove('./style.css')
 
 def copytree(src, dst, symlinks=False, ignore=None):
     """
@@ -131,6 +137,40 @@ def getTemplateHTML(questionNumber):
     return asString
 
 @eel.expose
+def getSlideCSS():
+    """
+    Unpacks the editable slide css and puts it in the Kiwi editor ready for users to directly edit slide appearance.
+    Returns the portion of the example template stylesheet for slide CSS, starting on the line '.slide, .endSlide {'
+    """
+
+    with open('example/style.css', 'r') as f:
+        styles = f.read()
+
+    startLocation = styles.find('.slide, .endSlide') #Skip to just slide CSS
+
+    return styles[startLocation:]
+
+@eel.expose
+def saveNewStylesheet(newStyles):
+    """
+    Takes user's input css styles for the slides and generates a new stylesheet for the output; input
+
+        - newStyles (str): Style rules for the slides taken from the front end
+
+    The stylesheet is NOT packaged into the output here; that is in packageQuiz()
+    """
+
+    with open('example/style.css', 'r') as f:
+        styles = f.read()
+
+    endLocation = styles.find('.slide, .endSlide') #Skip to just slide CSS
+    newSheet = styles[:endLocation] + newStyles
+
+    #Save new stylesheet
+    with open('style.css', 'w') as f:
+        f.write(newSheet)
+
+@eel.expose
 def generateMap(number):
     """
     Either updates the quizMap object to add new questions, or initialises a blank one.
@@ -206,6 +246,11 @@ def packageQuiz():
     copytree('./example', outPath)
     shutil.copy2('./script.js', outPath) #Replace with new script
     os.remove('./script.js')
+
+    #If user edited stylesheet, copy that over and delete
+    if os.path.exists('./style.css'):
+        shutil.copy2('./style.css', outPath)
+    os.remove('./style.css')
 
 #Simple getters/setters for accessing questions in the QuizMap object and communicating with the JS
 @eel.expose
